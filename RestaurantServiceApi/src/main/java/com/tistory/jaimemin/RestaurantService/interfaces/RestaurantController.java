@@ -1,10 +1,7 @@
 package com.tistory.jaimemin.RestaurantService.interfaces;
 
 import com.tistory.jaimemin.RestaurantService.application.RestaurantService;
-import com.tistory.jaimemin.RestaurantService.domain.MenuItem;
-import com.tistory.jaimemin.RestaurantService.domain.MenuItemRepository;
 import com.tistory.jaimemin.RestaurantService.domain.Restaurant;
-import com.tistory.jaimemin.RestaurantService.domain.RestaurantRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +35,7 @@ public class RestaurantController {
         String name = resource.getName();
         String address = resource.getAddress();
 
-        Restaurant restaurant = new Restaurant(1234L, name, address);
+        Restaurant restaurant = new Restaurant(name, address);
         restaurantService.addRestaurant(restaurant);
 
         URI location = new URI("/restaurants/" + restaurant.getId());
