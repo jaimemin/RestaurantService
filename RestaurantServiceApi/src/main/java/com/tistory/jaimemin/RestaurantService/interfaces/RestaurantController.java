@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 public class RestaurantController {
     @Autowired
@@ -43,5 +44,13 @@ public class RestaurantController {
         return ResponseEntity
                 .created(location)
                 .body("{}");
+    }
+
+    @PatchMapping("/restaurants/{id}")
+    public String update(@PathVariable("id") Long id
+            , @RequestBody Restaurant resource) {
+        restaurantService.updateRestaurant(id, resource.getName(), resource.getAddress());
+
+        return "{}";
     }
 }
