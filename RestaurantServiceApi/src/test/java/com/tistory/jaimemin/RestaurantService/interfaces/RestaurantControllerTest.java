@@ -62,6 +62,12 @@ public class RestaurantControllerTest {
                 .name("Kimchi")
                 .build();
         restaurant.setMenuItems(Arrays.asList(menuItem));
+        Review review = Review.builder()
+                .name("Gudetama")
+                .score(5)
+                .description("Great!")
+                .build();
+        restaurant.setReviews(Arrays.asList(review));
 
         given(restaurantService.getRestaurant(1004L)).willReturn(restaurant);
 
@@ -80,7 +86,9 @@ public class RestaurantControllerTest {
                 .andExpect(content()
                         .string(containsString("\"name\":\"JOKER House\"")))
                 .andExpect(content()
-                        .string(containsString("Kimchi")));
+                        .string(containsString("Kimchi")))
+                .andExpect(content()
+                        .string(containsString("Great!")));
 
         mvc.perform(get("/restaurants/2020"))
                 .andExpect(status().isOk())
