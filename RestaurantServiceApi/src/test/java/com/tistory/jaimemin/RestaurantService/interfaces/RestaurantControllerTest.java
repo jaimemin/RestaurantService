@@ -52,7 +52,7 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void getRestaurant() throws Exception {
+    public void getExistingRestaurant() throws Exception {
         Restaurant restaurant = Restaurant.builder()
                 .id(1004L)
                 .name("JOKER House")
@@ -88,6 +88,16 @@ public class RestaurantControllerTest {
                         .string(containsString("\"id\":2020")))
                 .andExpect(content()
                         .string(containsString("\"name\":\"Cyber Food\"")));
+    }
+
+    @Test
+    public void getNotExistingRestaurant() throws Exception {
+        given(restaurantService.getRestaurant(404L))
+                .willThrow(new RestaurantNotFoundException(404L));
+
+        mvc.perform(get("/restaurants/404"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{}"));
     }
 
     @Test

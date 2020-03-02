@@ -1,9 +1,6 @@
 package com.tistory.jaimemin.RestaurantService.application;
 
-import com.tistory.jaimemin.RestaurantService.domain.MenuItem;
-import com.tistory.jaimemin.RestaurantService.domain.MenuItemRepository;
-import com.tistory.jaimemin.RestaurantService.domain.Restaurant;
-import com.tistory.jaimemin.RestaurantService.domain.RestaurantRepository;
+import com.tistory.jaimemin.RestaurantService.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +30,7 @@ public class RestaurantService {
     public Restaurant getRestaurant(Long id) {
         Restaurant restaurant = restaurantRepository
                     .findById(id)
-                    .orElse(null);
+                    .orElseThrow(() -> new RestaurantNotFoundException(id));
 
         List<MenuItem> menuItems = menuItemRepository.findAllByRestaurantId(id);
         restaurant.setMenuItems(menuItems);
