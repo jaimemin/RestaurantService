@@ -6,4 +6,7 @@ pluginManagement {
 
 rootProject.name = 'RestaurantService'
 
-include 'RestaurantServiceApi'
+include 'restaurant-service-common'
+include 'restaurant-service-admin-api'
+include 'restaurant-service-customer-api'
+
