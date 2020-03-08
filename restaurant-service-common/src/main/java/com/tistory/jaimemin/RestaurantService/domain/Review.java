@@ -26,6 +26,7 @@ public class Review {
     @NotEmpty
     private String name;
 
+    @NotNull
     @Min(1)
     @Max(5)
     private Integer score;
