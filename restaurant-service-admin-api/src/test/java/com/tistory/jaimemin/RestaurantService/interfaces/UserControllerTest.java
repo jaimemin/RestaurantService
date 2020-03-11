@@ -1,6 +1,5 @@
 package com.tistory.jaimemin.RestaurantService.interfaces;
 
-import antlr.build.Tool;
 import com.tistory.jaimemin.RestaurantService.application.UserService;
 import com.tistory.jaimemin.RestaurantService.domain.User;
 import org.junit.Test;
@@ -16,11 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -68,5 +66,28 @@ public class UserControllerTest {
                 .andExpect(status().isCreated());
 
         verify(userService).addUser(email, name);
+    }
+
+    @Test
+    public void update() throws Exception {
+        mvc.perform(patch("/users/1004")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\":\"admin@example.com\", \"name\":\"Administrator\", \"level\":100}"))
+                .andExpect(status().isOk());
+
+        Long id = 1004L;
+        String email = "admin@example.com";
+        String name = "Administrator";
+        Long level = 100L;
+
+        verify(userService).updateUser(eq(id), eq(email), eq(name), eq(level));
+    }
+
+    @Test
+    public void deactivate() throws Exception {
+        mvc.perform(delete("/users/1004"))
+                .andExpect(status().isOk());
+
+        verify(userService).deActivateUser(1004L);
     }
 }

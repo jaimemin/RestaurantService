@@ -4,10 +4,7 @@ import com.tistory.jaimemin.RestaurantService.application.UserService;
 import com.tistory.jaimemin.RestaurantService.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,14 +12,10 @@ import java.util.List;
 
 @RestController
 public class UserController {
-    // 1. User List
-    // 2. User Create -> 회원 가입
-    // 3. User Update
-    // 4. User Delete
-    // - level: 0 => 아무것도 못함
+    // - level: 0 => deactivated
     // - level: 1 => customer
     // - level: 2 => restaurant owner
-    // - level: 3 => admin
+    // - level: 100 => admin
     @Autowired
     private UserService userService;
 
@@ -44,5 +37,24 @@ public class UserController {
         return ResponseEntity
                 .created(new URI(url))
                 .body("{}");
+    }
+
+    @PatchMapping("/users/{id}")
+    public String update(@PathVariable("id") Long id
+            , @RequestBody User resource) {
+        String email = resource.getEmail();
+        String name = resource.getName();
+        Long level = resource.getLevel();
+
+        userService.updateUser(id, email, name, level);
+
+        return "{}";
+    }
+
+    @DeleteMapping("/users/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        userService.deActivateUser(id);
+
+        return "{}";
     }
 }

@@ -1,9 +1,6 @@
 package com.tistory.jaimemin.RestaurantService.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,5 +30,13 @@ public class User {
 
     public boolean isAdmin() {
         return level >= 100;
+    }
+
+    public boolean isActive() {
+        return level > 0;
+    }
+
+    public void deActivate() {
+        level = 0L;
     }
 }
