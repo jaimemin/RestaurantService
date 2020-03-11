@@ -29,7 +29,7 @@ public class UserControllerTest {
     private UserService userService;
 
     @Test
-    public void create() throws Exception { 
+    public void create() throws Exception {
         User mockUser = User.builder()
                 .id(1004L)
                 .email("test@example.com")

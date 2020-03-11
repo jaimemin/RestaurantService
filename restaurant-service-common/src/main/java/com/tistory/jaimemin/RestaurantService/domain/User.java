@@ -1,5 +1,6 @@
 package com.tistory.jaimemin.RestaurantService.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -40,5 +41,10 @@ public class User {
 
     public void deActivate() {
         level = 0L;
+    }
+
+    @JsonIgnore
+    public String getAccessToken() {
+        return password == null ? "" : password.substring(0, 10);
     }
 }
