@@ -43,8 +43,4 @@ public class User {
         level = 0L;
     }
 
-    @JsonIgnore
-    public String getAccessToken() {
-        return password == null ? "" : password.substring(0, 10);
-    }
 }

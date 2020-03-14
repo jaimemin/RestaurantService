@@ -38,7 +38,6 @@ public class UserService {
 
     public User updateUser(Long id, String email
             , String name, Long level) {
-        // TODO: restaurantService의 예외 처리 참고
         User user = userRepository
                 .findById(id)
                 .orElse(null);
