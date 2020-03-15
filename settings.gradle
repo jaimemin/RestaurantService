@@ -9,4 +9,5 @@ rootProject.name = 'RestaurantService'
 include 'restaurant-service-common'
 include 'restaurant-service-admin-api'
 include 'restaurant-service-customer-api'
+include 'restaurant-service-login-api'
 
