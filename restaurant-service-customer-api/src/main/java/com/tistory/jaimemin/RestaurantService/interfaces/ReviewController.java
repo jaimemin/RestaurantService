@@ -2,8 +2,10 @@ package com.tistory.jaimemin.RestaurantService.interfaces;
 
 import com.tistory.jaimemin.RestaurantService.application.ReviewService;
 import com.tistory.jaimemin.RestaurantService.domain.Review;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,9 +21,16 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @PostMapping("/restaurants/{restaurantId}/reviews")
-    public ResponseEntity<?> create(@PathVariable Long restaurantId
+    public ResponseEntity<?> create(Authentication authentication
+            , @PathVariable Long restaurantId
             , @Valid @RequestBody Review resource) throws URISyntaxException {
-        Review review = reviewService.addReview(restaurantId, resource);
+        Claims claims = (Claims) authentication.getPrincipal();
+        String name = claims.get("name", String.class);
+
+        Review review = reviewService.addReview(restaurantId
+                , name
+                , resource.getScore()
+                , resource.getDescription());
 
         String url = "/restaurants/" + restaurantId + "/reviews/" + review.getId();
 
