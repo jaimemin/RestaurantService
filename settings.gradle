@@ -10,4 +10,5 @@ include 'restaurant-service-common'
 include 'restaurant-service-admin-api'
 include 'restaurant-service-customer-api'
 include 'restaurant-service-login-api'
+include 'restaurant-service-restaurant-api'
 

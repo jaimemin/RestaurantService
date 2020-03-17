@@ -24,23 +24,16 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User registerUser(String email, String name, String password) {
-        Optional<User> isExisting = userRepository.findByEmail(email);
+    public User authenticate(String email, String password) {
+        User user = userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new EmailNotExistingException(email));
 
-        if (isExisting.isPresent()) {
-            throw new EmailExistingException(email);
+        if (passwordEncoder.matches(password, user.getPassword()) == false) {
+            throw new WrongPasswordException();
         }
 
-        String encodedPassword = passwordEncoder.encode(password);
-
-        User user = User.builder()
-                .email(email)
-                .name(name)
-                .password(encodedPassword)
-                .level(1L)
-                .build();
-
-        return userRepository.save(user);
+        return user;
     }
 
 }
